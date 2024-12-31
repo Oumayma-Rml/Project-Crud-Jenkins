@@ -1,14 +1,13 @@
 pipeline {
     agent any
     tools {
-        // Specify Java and Maven tools (configure these in Jenkins Global Tool Configuration)
-        jdk 'JDK17'          // Replace with the name of the JDK configured in Jenkins
-        maven 'Maven3.9.6'   // Replace with the name of the Maven configured in Jenkins
+        jdk 'JDK'          // Ensure this matches the name you used for JDK configuration in Jenkins
+        maven 'Maven'      // Ensure this matches the name you used for Maven configuration in Jenkins
     }
     stages {
         stage('Checkout') {
             steps {
-                // Clone the project repository (optional if it's on your local machine)
+                // Clone the project repository
                 git 'https://github.com/Oumayma-Rml/Project-Crud-Jenkins.git'
             }
         }
@@ -27,7 +26,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    // Using the DockerHub credentials to authenticate before pushing the image
+                    // Using DockerHub credentials to authenticate before pushing the image
                     docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-omayma9948-id') {
                         // Tag the image
                         sh 'docker tag crud omayma9948/crud:latest'
