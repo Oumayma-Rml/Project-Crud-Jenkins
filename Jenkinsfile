@@ -4,7 +4,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Clone the project repository
-                git 'https://github.com/Oumayma-Rml/Project-Crud-Jenkins.git'
+                git branch: 'main', credentialsId: 'github-credentials', url: 'https://github.com/Oumayma-Rml/Project-Crud-Jenkins.git'
             }
         }
         stage('Build WAR') {
