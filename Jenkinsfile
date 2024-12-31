@@ -12,31 +12,29 @@ pipeline {
                 git 'https://github.com/Oumayma-Rml/Project-Crud-Jenkins.git'
             }
         }
+        stage('Build WAR') {
+            steps {
+                // Build the application WAR using Maven
+                sh 'mvn package -DskipTests'
+            }
+        }
         stage('Docker Build') {
             steps {
                 // Build a Docker image for the Spring Boot application
-                sh 'docker build -t Crud .'
+                sh 'docker build -t crud .'
             }
         }
-        stage('Build WAR') {
-            steps {
-                        // Build the application WAR using Maven
-                        sh 'mvn package -DskipTests'
-'
-                    }
-                }
         stage('Push Docker Image') {
             steps {
-                    script {
-                        // Using the DockerHub credentials to authenticate before pushing the image
-                        docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-omayma9948-id') {
-                            // Tag the image
-                            sh 'docker tag Crud omayma9948/crud:latest'
-                            // Push the image to DockerHub
-                            sh 'docker push omayma9948/crud:latest'
-                        }
+                script {
+                    // Using the DockerHub credentials to authenticate before pushing the image
+                    docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-omayma9948-id') {
+                        // Tag the image
+                        sh 'docker tag crud omayma9948/crud:latest'
+                        // Push the image to DockerHub
+                        sh 'docker push omayma9948/crud:latest'
                     }
-
+                }
             }
         }
         stage('Deploy') {
